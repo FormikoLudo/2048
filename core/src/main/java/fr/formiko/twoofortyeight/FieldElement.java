@@ -17,8 +17,10 @@ public class FieldElement extends Actor {
 
     private int value;
     private Label label;
+    private boolean merged;
     public FieldElement(float x, float y, int value) {
         super();
+        this.merged = false;
         this.setX(x);
         this.setY(y);
         this.value = value;
@@ -52,6 +54,16 @@ public class FieldElement extends Actor {
     }
     public int getValue() {
         return this.value;
+    }
+    public void doubleValue() {
+        setValue(getValue() * 2);
+        merged = true;
+    }
+    public void resetMerged() {
+        merged = false;
+    }
+    public boolean isMerged() {
+        return merged;
     }
 
     @Override

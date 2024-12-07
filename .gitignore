@@ -103,6 +103,7 @@ gradle-app.setting
 /android/build/
 /core/build/
 /desktop/build/
+/lwjgl3/build/
 /html/build/
 /ios/build/
 

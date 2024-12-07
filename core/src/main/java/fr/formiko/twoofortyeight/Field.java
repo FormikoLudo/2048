@@ -56,7 +56,22 @@ public class Field extends Group {
         if (hasMoved) {
             generateNewElement();
             checkGameOver();
+            resetAllMerged();
         }
+    }
+
+    private void resetAllMerged() {
+        for (int i = 0; i < COLS; i++) {
+            for (int j = 0; j < ROWS; j++) {
+                this.elements[i][j].resetMerged();
+            }
+        }
+    }
+
+    private boolean sameValueAndNotMerged(int x1, int y1, int x2, int y2) {
+        return this.elements[x1][y1].getValue() == this.elements[x2][y2].getValue()
+        && !this.elements[x1][y1].isMerged()
+        && !this.elements[x2][y2].isMerged();
     }
 
     private boolean moveright() {
@@ -73,11 +88,10 @@ public class Field extends Group {
                 }
                 switchActorAt(i + howManyColumnsCanIGoRight, j, i, j);
                 if (i + howManyColumnsCanIGoRight < COLS - 1) {
-                    if (this.elements[i + howManyColumnsCanIGoRight][j]
-                            .getValue() == this.elements[i + howManyColumnsCanIGoRight + 1][j].getValue()) {
-                        this.elements[i + howManyColumnsCanIGoRight + 1][j]
-                                .setValue(this.elements[i + howManyColumnsCanIGoRight][j].getValue() * 2);
+                    if(sameValueAndNotMerged(i + howManyColumnsCanIGoRight, j, i + howManyColumnsCanIGoRight + 1, j)){
+                        this.elements[i + howManyColumnsCanIGoRight + 1][j].doubleValue();
                         this.elements[i + howManyColumnsCanIGoRight][j].setValue(0);
+                        flag = true;
                     }
 
                 }
@@ -100,11 +114,10 @@ public class Field extends Group {
                 }
                 switchActorAt(i - howManyColumnsCanIGoLeft, j, i, j);
                 if (i - howManyColumnsCanIGoLeft > 0) {
-                    if (this.elements[i - howManyColumnsCanIGoLeft][j]
-                            .getValue() == this.elements[i - howManyColumnsCanIGoLeft - 1][j].getValue()) {
-                        this.elements[i - howManyColumnsCanIGoLeft - 1][j]
-                                .setValue(this.elements[i - howManyColumnsCanIGoLeft][j].getValue() * 2);
+                    if(sameValueAndNotMerged(i - howManyColumnsCanIGoLeft, j, i - howManyColumnsCanIGoLeft - 1, j)){
+                        this.elements[i - howManyColumnsCanIGoLeft - 1][j].doubleValue();
                         this.elements[i - howManyColumnsCanIGoLeft][j].setValue(0);
+                        flag = true;
                     }
                 }
             }
@@ -116,7 +129,6 @@ public class Field extends Group {
         boolean flag = false;
         for (int i = ROWS - 1; i >= 0; i--) {
             for (int j = 0; j < COLS; j++) {
-                System.out.println("i : " + i + " j : " + j);
                 FieldElement actor = this.elements[j][i];
                 if (actor.getValue() == 0) {
                     continue;
@@ -127,11 +139,10 @@ public class Field extends Group {
                 }
                 switchActorAt(j, i + howManyRowsCanIGoUp, j, i);
                 if (i + howManyRowsCanIGoUp < ROWS - 1) {
-                    if (this.elements[j][i + howManyRowsCanIGoUp]
-                            .getValue() == this.elements[j][i + howManyRowsCanIGoUp + 1].getValue()) {
-                        this.elements[j][i + howManyRowsCanIGoUp + 1]
-                                .setValue(this.elements[j][i + howManyRowsCanIGoUp].getValue() * 2);
+                    if(sameValueAndNotMerged(j, i + howManyRowsCanIGoUp, j, i + howManyRowsCanIGoUp + 1)){
+                        this.elements[j][i + howManyRowsCanIGoUp + 1].doubleValue();
                         this.elements[j][i + howManyRowsCanIGoUp].setValue(0);
+                        flag = true;
                     }
                 }
             }
@@ -153,11 +164,10 @@ public class Field extends Group {
                 }
                 switchActorAt(j, i - howManyRowsCanIGoDown, j, i);
                 if (i - howManyRowsCanIGoDown > 0) {
-                    if (this.elements[j][i - howManyRowsCanIGoDown]
-                            .getValue() == this.elements[j][i - howManyRowsCanIGoDown - 1].getValue()) {
-                        this.elements[j][i - howManyRowsCanIGoDown - 1]
-                                .setValue(this.elements[j][i - howManyRowsCanIGoDown].getValue() * 2);
+                    if (sameValueAndNotMerged(j, i - howManyRowsCanIGoDown, j, i - howManyRowsCanIGoDown - 1)) {
+                        this.elements[j][i - howManyRowsCanIGoDown - 1].doubleValue();
                         this.elements[j][i - howManyRowsCanIGoDown].setValue(0);
+                        flag = true;
                     }
                 }
             }
