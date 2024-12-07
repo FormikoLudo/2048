@@ -42,28 +42,25 @@ public class Field extends Group {
         super.act(delta);
         boolean hasMoved = false;
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            moveright();
-            hasMoved = true;
+            hasMoved = moveright();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            moveleft();
-            hasMoved = true;
+            hasMoved = moveleft();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            moveUp();
-            hasMoved = true;
+            hasMoved = moveUp();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            moveDown();
-            hasMoved = true;
+            hasMoved = moveDown();
         }
         if (hasMoved) {
             generateNewElement();
-            gameOver();
+            checkGameOver();
         }
     }
 
-    private void moveright() {
+    private boolean moveright() {
+        boolean flag = false;
         for (int i = COLS - 1; i >= 0; i--) {
             for (int j = 0; j < ROWS; j++) {
                 FieldElement actor = this.elements[i][j];
@@ -71,6 +68,9 @@ public class Field extends Group {
                     continue;
                 }
                 int howManyColumnsCanIGoRight = howManyColumnsCanIGoRight(i, j);
+                if(howManyColumnsCanIGoRight != 0) {
+                    flag = true;
+                }
                 switchActorAt(i + howManyColumnsCanIGoRight, j, i, j);
                 if (i + howManyColumnsCanIGoRight < COLS - 1) {
                     if (this.elements[i + howManyColumnsCanIGoRight][j]
@@ -83,9 +83,11 @@ public class Field extends Group {
                 }
             }
         }
+        return flag;
     }
 
-    public void moveleft() {
+    public boolean moveleft() {
+        boolean flag = false;
         for (int i = 0; i < COLS; i++) {
             for (int j = 0; j < ROWS; j++) {
                 FieldElement actor = this.elements[i][j];
@@ -93,6 +95,9 @@ public class Field extends Group {
                     continue;
                 }
                 int howManyColumnsCanIGoLeft = howManyColumnsCanIGoLeft(i, j);
+                if(howManyColumnsCanIGoLeft != 0) {
+                    flag = true;
+                }
                 switchActorAt(i - howManyColumnsCanIGoLeft, j, i, j);
                 if (i - howManyColumnsCanIGoLeft > 0) {
                     if (this.elements[i - howManyColumnsCanIGoLeft][j]
@@ -104,9 +109,11 @@ public class Field extends Group {
                 }
             }
         }
+        return flag;
     }
 
-    private void moveUp() {
+    private boolean moveUp() {
+        boolean flag = false;
         for (int i = ROWS - 1; i >= 0; i--) {
             for (int j = 0; j < COLS; j++) {
                 System.out.println("i : " + i + " j : " + j);
@@ -115,6 +122,9 @@ public class Field extends Group {
                     continue;
                 }
                 int howManyRowsCanIGoUp = howManyRowsCanIGoUp(j, i);
+                if(howManyRowsCanIGoUp != 0) {
+                    flag = true;
+                }
                 switchActorAt(j, i + howManyRowsCanIGoUp, j, i);
                 if (i + howManyRowsCanIGoUp < ROWS - 1) {
                     if (this.elements[j][i + howManyRowsCanIGoUp]
@@ -126,9 +136,11 @@ public class Field extends Group {
                 }
             }
         }
+        return flag;
     }
 
-    private void moveDown() {
+    private boolean moveDown() {
+        boolean flag = false;
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
                 FieldElement actor = this.elements[j][i];
@@ -136,6 +148,9 @@ public class Field extends Group {
                     continue;
                 }
                 int howManyRowsCanIGoDown = howManyRowsCanIGoDown(j, i);
+                if(howManyRowsCanIGoDown != 0) {
+                    flag = true;
+                }
                 switchActorAt(j, i - howManyRowsCanIGoDown, j, i);
                 if (i - howManyRowsCanIGoDown > 0) {
                     if (this.elements[j][i - howManyRowsCanIGoDown]
@@ -147,6 +162,7 @@ public class Field extends Group {
                 }
             }
         }
+        return flag;
     }
     private void switchActorAt(int targetX, int targetY, int originX, int originY) {
         assert targetX >= 0 && targetX < COLS;
@@ -255,7 +271,7 @@ public class Field extends Group {
         }
     }
 
-    private void gameOver() {
+    private void checkGameOver() {
         if (Stream.of(elements).allMatch(row -> Stream.of(row).allMatch(e -> e.getValue() != 0))) {
             System.out.println("Game Over");
             
