@@ -1,3 +1,0 @@
-bgcolors.yml
-fonts/NotoSans-Regular.ttf
-libgdx.png
