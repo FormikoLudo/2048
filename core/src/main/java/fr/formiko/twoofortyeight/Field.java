@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -290,6 +291,7 @@ public class Field extends Group {
 
     @Override
     public void draw(com.badlogic.gdx.graphics.g2d.Batch batch, float parentAlpha) {
+        ScreenUtils.clear(1.0f, 1.0f, 1.0f, 1.0f);
         super.draw(batch, parentAlpha);
         ShapeDrawer shapeDrawer = Main.getShapeDrawer(batch);
         shapeDrawer.filledRectangle(getX() - 10, getY() - 10, getWidth() + 10, getHeight() + 10, Color.LIGHT_GRAY);
