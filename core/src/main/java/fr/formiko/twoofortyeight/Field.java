@@ -35,7 +35,7 @@ public class Field extends Group {
         this.setSize((SQUARE_SIZE + 10) * COLS, (SQUARE_SIZE + 10) * ROWS);
         generateNewElement();
         generateNewElement();
-        this.scoreLabel = new Label("Score : " + score, new Label.LabelStyle(Fonts.getFont(30), null));
+        this.scoreLabel = new Label("Score : " + score, new Label.LabelStyle(Fonts.getFont(30), Color.BLACK));
     }
 
     @Override
@@ -92,6 +92,7 @@ public class Field extends Group {
                     if(sameValueAndNotMerged(i + howManyColumnsCanIGoRight, j, i + howManyColumnsCanIGoRight + 1, j)){
                         this.elements[i + howManyColumnsCanIGoRight + 1][j].doubleValue();
                         this.elements[i + howManyColumnsCanIGoRight][j].setValue(0);
+                        this.score += this.elements[i + howManyColumnsCanIGoRight + 1][j].getValue();
                         flag = true;
                     }
 
@@ -119,6 +120,7 @@ public class Field extends Group {
                         this.elements[i - howManyColumnsCanIGoLeft - 1][j].doubleValue();
                         this.elements[i - howManyColumnsCanIGoLeft][j].setValue(0);
                         flag = true;
+                        score += this.elements[i - howManyColumnsCanIGoLeft - 1][j].getValue();
                     }
                 }
             }
@@ -144,6 +146,7 @@ public class Field extends Group {
                         this.elements[j][i + howManyRowsCanIGoUp + 1].doubleValue();
                         this.elements[j][i + howManyRowsCanIGoUp].setValue(0);
                         flag = true;
+                        score += this.elements[j][i + howManyRowsCanIGoUp + 1].getValue();
                     }
                 }
             }
@@ -168,6 +171,7 @@ public class Field extends Group {
                     if (sameValueAndNotMerged(j, i - howManyRowsCanIGoDown, j, i - howManyRowsCanIGoDown - 1)) {
                         this.elements[j][i - howManyRowsCanIGoDown - 1].doubleValue();
                         this.elements[j][i - howManyRowsCanIGoDown].setValue(0);
+                        score += this.elements[j][i - howManyRowsCanIGoDown - 1].getValue();
                         flag = true;
                     }
                 }
@@ -301,5 +305,8 @@ public class Field extends Group {
                 fe.draw(batch, parentAlpha);
             }
         }
+        this.scoreLabel.setText("Score : " + score);
+        this.scoreLabel.setPosition(0, Gdx.graphics.getHeight() - 50);
+        this.scoreLabel.draw(batch, parentAlpha);
     }
 }

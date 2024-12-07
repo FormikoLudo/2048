@@ -37,7 +37,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         ScreenUtils.clear(1.0f, 1.0f, 1.0f, 1.0f);
-        this.field = new Field(50, 50);
+        this.field = new Field(0, 0);
         // this.field = new Field(Gdx.graphics.getWidth() / 2 - Field.SQUARE_SIZE, Gdx.graphics.getHeight() / 2 - 2 * Field.SQUARE_SIZE );
         // this.field.setX(0);
         // this.field.setY(0);
