@@ -3,8 +3,11 @@ package fr.formiko.twoofortyeight;
 import java.util.stream.Stream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 
 public class Field extends Group {
@@ -29,11 +32,8 @@ public class Field extends Group {
             }
         }
         this.setSize((SQUARE_SIZE + 10) * COLS, (SQUARE_SIZE + 10) * ROWS);
-        // generateNewElement();
-        this.elements[0][0].setValue(2);
-        this.elements[0][3].setValue(4);
-        //this.elements[3][0].setValue(8);
-        //this.elements[3][3].setValue(1);
+        generateNewElement();
+        generateNewElement();
         this.scoreLabel = new Label("Score : " + score, new Label.LabelStyle(Fonts.getFont(30), null));
     }
 
@@ -285,6 +285,19 @@ public class Field extends Group {
         if (Stream.of(elements).allMatch(row -> Stream.of(row).allMatch(e -> e.getValue() != 0))) {
             System.out.println("Game Over");
             
+        }
+    }
+
+    @Override
+    public void draw(com.badlogic.gdx.graphics.g2d.Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        ShapeDrawer shapeDrawer = Main.getShapeDrawer(batch);
+        shapeDrawer.filledRectangle(getX() - 10, getY() - 10, getWidth() + 10, getHeight() + 10, Color.LIGHT_GRAY);
+        for (int i = 0; i < COLS; i++) {
+            for (int j = 0; j < ROWS; j++) {
+                FieldElement fe = this.elements[i][j];
+                fe.draw(batch, parentAlpha);
+            }
         }
     }
 }
